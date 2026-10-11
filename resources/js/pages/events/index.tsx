@@ -1,0 +1,30 @@
+import { Head, Link } from '@inertiajs/react';
+import type { Event } from '@/types';
+import EventCard from '@/components/event-card';
+import { show } from '@/routes/events';
+import { create } from '@/routes/events';
+
+interface Props {
+    events: Event[];
+    canCreateEvent: boolean;
+}
+
+export default function EventsIndex({ events, canCreateEvent }: Props) {
+    return (
+        <>
+            <Head title="Upcoming Events" />
+
+            <div className="flex items-center justify-between">
+                <h1 className="text-2xl font-semibold">Upcoming Events</h1>
+                {canCreateEvent && <Link href={create.url()}> Create Event </Link>}
+            </div>
+
+            <div className="space-y-4">
+                {events.map((event) => (
+                    <EventCard key={event.id} event={event} />
+                ))}
+
+            </div>
+        </>
+    );
+}

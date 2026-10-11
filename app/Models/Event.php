@@ -1,0 +1,36 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Models\MeetupGroup;
+use App\Models\USer;
+
+#[Fillable(['meetup_group_id', 'title', 'slug', 'description', 'location', 
+'starts_at'])]
+
+class Event extends Model
+{
+    protected $casts = [
+
+        'starts_at' => 'datetime',
+    ];
+
+    public function meetupGroup(): BelongsTo
+    {
+        return $this->belongsTo(MeetupGroup::class);
+    }
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class)->withTimestamps();
+    }
+}
